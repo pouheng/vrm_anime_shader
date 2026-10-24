@@ -1,7 +1,7 @@
 bl_info = {
     "name": "VRM Anime Shader - MToon to Anime Converter",
     "author": "opencode",
-    "version": (2, 0, 1),
+    "version": (2, 0, 2),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > Anime Shader",
     "description": "Convert VRM MToon materials to anime-style EEVEE shaders with preset switching and scene-light integration",
@@ -1325,8 +1325,8 @@ class VAS_PT_main(Panel):
         box = layout.box()
         box.label(text="Material Conversion", icon="MATERIAL")
         row = box.row(align=True)
-        op = row.operator("vas.convert_mtoon", icon="PLAY")
-        op.enabled = bool(obj and obj.type == "ARMATURE")
+        row.enabled = bool(obj and obj.type == "ARMATURE")
+        row.operator("vas.convert_mtoon", icon="PLAY")
 
         if obj and obj.type == "ARMATURE":
             mesh_count = sum(1 for o in bpy.data.objects if o.type == "MESH" and o.parent == obj)
@@ -1390,16 +1390,21 @@ class VAS_PT_main(Panel):
             return
 
         # refresh Scene props from the first anime material's group node
+        # (only when the inspected material changes, otherwise this would
+        # re-sync every property to every material on each UI redraw)
         props = context.scene.vas_props
-        for node in active_mat.node_tree.nodes:
-            if node.type == "GROUP" and node.node_tree and node.node_tree.name == SHADER_GROUP_NAME:
-                for prop, socket_name in SYNC_SOCKET_MAP.items():
-                    if socket_name in node.inputs and hasattr(props, prop):
-                        try:
-                            setattr(props, prop, node.inputs[socket_name].default_value)
-                        except Exception:
-                            pass
-                break
+        sync_key = active_mat.name
+        if context.scene.get("_vas_panel_sync_key") != sync_key:
+            context.scene["_vas_panel_sync_key"] = sync_key
+            for node in active_mat.node_tree.nodes:
+                if node.type == "GROUP" and node.node_tree and node.node_tree.name == SHADER_GROUP_NAME:
+                    for prop, socket_name in SYNC_SOCKET_MAP.items():
+                        if socket_name in node.inputs and hasattr(props, prop):
+                            try:
+                                setattr(props, prop, node.inputs[socket_name].default_value)
+                            except Exception:
+                                pass
+                    break
 
         self._draw_shader_params(box, context)
 

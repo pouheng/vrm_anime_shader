@@ -144,6 +144,13 @@ reference a stale group. Re-import and convert again after upgrading the addon.
 - Blender 4.4.3 validated on VRM 0.0 and VRM 1.0 models; faithful mean abs pixel
   difference ≈ 0.02/255.
 
+**2026-10-24 — v2.0.2 (hotfix)**
+- Fixed `AttributeError: 'VAS_OT_convert_mtoon' object has no attribute 'enabled'`
+  raised while drawing the "VRM Anime Shader" sidebar panel: operator buttons must
+  disable the layout `row`, not the operator properties.
+- Avoid re-syncing Scene shader properties to every material on every panel redraw
+  (cache the inspected material); this removes UI redraw lag on larger models.
+
 **2026-10-24 — v2.0.1 (showcase tooling)**
 - Added `dev/showcase/`: headless comparison harness (`render_scene.py`), pose
   showcase renderer (`pose_showcase.py`), compositing helpers and a per-shot shader

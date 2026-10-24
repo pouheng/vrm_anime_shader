@@ -143,3 +143,10 @@ reference a stale group. Re-import and convert again after upgrading the addon.
   `Shade Color × Shade Texture` plus optional global tint.
 - Blender 4.4.3 validated on VRM 0.0 and VRM 1.0 models; faithful mean abs pixel
   difference ≈ 0.02/255.
+
+**2026-10-24 — v2.0.1 (showcase tooling)**
+- Added `dev/showcase/`: headless comparison harness (`render_scene.py`), pose
+  showcase renderer (`pose_showcase.py`), compositing helpers and a per-shot shader
+  override example (`params_neon.json`).
+- Added posed showcase previews under `docs/showcase/` and linked them from the README.
+- No shader/conversion behaviour changes in this commit.

@@ -1,7 +1,7 @@
 bl_info = {
     "name": "VRM Anime Shader - MToon to Anime Converter",
     "author": "opencode",
-    "version": (2, 0, 0),
+    "version": (2, 0, 1),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > Anime Shader",
     "description": "Convert VRM MToon materials to anime-style EEVEE shaders with preset switching and scene-light integration",

@@ -135,15 +135,34 @@ try/except because the VRM addon can block direct reads.
 - Material Preview may look brighter than Render because the studio HDRI is much
   stronger than a typical scene; use the Scene Light parameters or final Render.
 
+## Showcase
+
+Posed renders produced with the bundled `dev/showcase` harness (VRM 0.0 suit model,
+Blender 4.4.3 EEVEE, 64 samples):
+
+![Pose showcase](docs/showcase/pose_showcase_sheet.jpg)
+
+*IDLE (Anime Clean · studio), WAVE (Wuthering Waves · outdoor), POINT (Honkai Star
+Rail · neon), LOOK BACK (Genshin Impact · outdoor), PORTRAIT (close-up), SUNSET
+(Anime Clean · golden hour).*
+
+![Close-up](docs/showcase/wave_portrait_closeup.jpg)
+
+Same pose and outdoor lighting, original MToon (left) vs. this addon (right):
+
+![Comparison](docs/showcase/compare_original_vs_v2.jpg)
+
 ## Verification
 
 The addon is validated headlessly in Blender 4.4.3 against original MToon on both a VRM
 0.0 and a VRM 1.0 model:
 
-- `MToon Faithful` vs original MToon close-up: mean absolute pixel difference ≈ 0.02/255.
+- `MToon Faithful` vs original MToon close-up: mean absolute pixel difference ≈ 0.045/255.
 - Studio / sunset sky / coloured stage lights / night point lights / world-only lighting
   comparison renders confirm the new shader follows scene brightness and colour while
   keeping a cel-shaded look.
+- The `dev/showcase` scripts reproduce the comparison renders and the posed showcase
+  images above; see [dev/showcase/README.md](dev/showcase/README.md).
 
 ## License
 

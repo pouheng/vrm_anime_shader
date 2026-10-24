@@ -144,6 +144,12 @@ reference a stale group. Re-import and convert again after upgrading the addon.
 - Blender 4.4.3 validated on VRM 0.0 and VRM 1.0 models; faithful mean abs pixel
   difference ≈ 0.02/255.
 
+**2026-10-24 — v2.0.3 (hotfix)**
+- Removed all data writes from the panel draw callback: Blender rejects ID writes
+  (`Scene._vas_panel_sync_key`) raised from `draw()`. The shader parameter panel is
+  now read-only; values are pushed to materials by the preset operators and the
+  Scene property update callbacks instead.
+
 **2026-10-24 — v2.0.2 (hotfix)**
 - Fixed `AttributeError: 'VAS_OT_convert_mtoon' object has no attribute 'enabled'`
   raised while drawing the "VRM Anime Shader" sidebar panel: operator buttons must

@@ -1,7 +1,7 @@
 bl_info = {
     "name": "VRM Anime Shader - MToon to Anime Converter",
     "author": "opencode",
-    "version": (2, 0, 2),
+    "version": (2, 0, 3),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > Anime Shader",
     "description": "Convert VRM MToon materials to anime-style EEVEE shaders with preset switching and scene-light integration",
@@ -1389,23 +1389,9 @@ class VAS_PT_main(Panel):
             box.label(text="No anime material found", icon="INFO")
             return
 
-        # refresh Scene props from the first anime material's group node
-        # (only when the inspected material changes, otherwise this would
-        # re-sync every property to every material on each UI redraw)
-        props = context.scene.vas_props
-        sync_key = active_mat.name
-        if context.scene.get("_vas_panel_sync_key") != sync_key:
-            context.scene["_vas_panel_sync_key"] = sync_key
-            for node in active_mat.node_tree.nodes:
-                if node.type == "GROUP" and node.node_tree and node.node_tree.name == SHADER_GROUP_NAME:
-                    for prop, socket_name in SYNC_SOCKET_MAP.items():
-                        if socket_name in node.inputs and hasattr(props, prop):
-                            try:
-                                setattr(props, prop, node.inputs[socket_name].default_value)
-                            except Exception:
-                                pass
-                    break
-
+        # Panel is read-only: never write to scene/material data here (Blender
+        # forbids ID writes from a panel draw callback). Shader parameters are
+        # pushed to materials by the preset operators and scene property updates.
         self._draw_shader_params(box, context)
 
     def _draw_shader_params(self, box, context):
